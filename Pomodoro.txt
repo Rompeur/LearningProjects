@@ -1,0 +1,2 @@
+Pomodoro timer application with GUI that helps me to coordinate my learning sessions.
+WIP
