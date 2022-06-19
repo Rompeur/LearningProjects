@@ -35,25 +35,45 @@ class Pomodoro:
         self.long_break_time_label = ttk.Label(self.tab3, text="15:00", font=("Ubuntu", 50))
         self.long_break_time_label.pack(pady=20)
 
-
         #creating and naming tabs
         self.tabs.add(self.tab1, text="Pomodoro")
         self.tabs.add(self.tab2, text="Short Break")
         self.tabs.add(self.tab3, text="Long Break")
 
-        # runs the application forever
+        #creating buttons that start, skip and reset the timer
+        self.grid_layout = ttk.Frame(self.root)
+        self.grid_layout.pack(pady=10)
+
+        self.start_button = ttk.Button(self.grid_layout, text="Start", command=self.start_timer_thread)
+        self.start_button.grid(row=0, column=0)
+
+        self.skip_button = ttk.Button(self.grid_layout, text="Skip", command=self.skip_timer)
+        self.skip_button.grid(row=0, column=1)
+
+        self.reset_button = ttk.Button(self.grid_layout, text="Reset", command=self.reset_timer)
+        self.reset_button.grid(row=0, column=2)
+
+        #creating and adding pomodoro counter
+        self.pomodoro_counter_label = ttk.Label(self.grid_layout, text="Pomodoros: 0", font=("Ubuntu", 16))
+        self.pomodoro_counter_label.grid(row=1, column=0, columnspan=3, pady=6)
+
+        self.pomodoros = 0
+        self.skipped = False
+        self.stopped = False
+
+        # runs the application so it can be interacted with limitlessly
         self.root.mainloop()
 
     def start_timer_thread(self):
         pass
 
-    def start_time(self):
+    def start_timer(self):
         pass
 
-    def reset(self):
+    def reset_timer(self):
         pass
 
-    def skip_clock(self):
+    def skip_timer(self):
         pass
 
 Pomodoro()
