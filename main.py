@@ -68,14 +68,13 @@ class Pomodoro:
     #creating thread so the timer can run simultaneously with the app
     def start_timer_thread(self):
         if not self.running:
-            self.tabs.select(0)
             t = threading.Thread(target=self.start_timer)
             t.start()
             self.running = True
 
     def start_timer(self):
         #stopping other functions in case they are true
-        self.stop = False
+        self.stopped = False
         self.skipped = False
         timer_id = self.tabs.index(self.tabs.select()) + 1
 
@@ -83,7 +82,7 @@ class Pomodoro:
         ### can make the timer smoother by changing the sleep and time decreasing to 0.1
         ### however it will make problems with formatting as it will use float numbers
 
-        # basic countdown
+        # countdowns
         if timer_id == 1:
             full_seconds = 60 * 35
             while full_seconds > 0 and not self.stopped:
