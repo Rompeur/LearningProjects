@@ -64,11 +64,62 @@ class Pomodoro:
         # runs the application so it can be interacted with limitlessly
         self.root.mainloop()
 
+    #creating thread so the timer can run simultaneously with the app
     def start_timer_thread(self):
-        pass
+        t = threading.Thread(target=self.start_timer)
+        t.start()
 
     def start_timer(self):
-        pass
+        #stopping other functions in case they are true
+        self.stop = False
+        self.skipped = False
+        timer_id = self.tabs.index(self.tabs.select()) + 1
+
+        ### TODO
+        ### can make the timer smoother by changing the sleep and time decreasing to 0.1
+        ### however it will make problems with formatting as it will use float numbers
+
+        # basic countdown
+        if timer_id == 1:
+            full_seconds = 60 * 25
+            while full_seconds > 0 and not self.stopped:
+                minutes, seconds = divmod(full_seconds, 60)
+                self.pomodoro_label.config(text=f"{minutes:02d}:{seconds:02d}")
+                self.root.update()
+                time.sleep(1)
+                full_seconds -= 1
+            #adding pomodoros and selecting whether the user should have short or long break
+            if not self.stopped or self.skipped:
+                self.pomodoros += 1
+                self.pomodoro_counter_label.config(text=f"Pomodoros {self.pomodoros}")
+                if self.pomodoros % 4 == 0:
+                    self.tabs.select(2)
+                else:
+                    self.tabs.select(1)
+                self.start_timer()
+        elif timer_id == 2:
+            full_seconds = 60 * 5
+            while full_seconds > 0 and not self.stopped:
+                minutes, seconds = divmod(full_seconds, 60)
+                self.short_break_timer_label(text=f"{minutes:02d}:{seconds:02d}")
+                self.root.update()
+                time.sleep(1)
+                full_seconds -= 1
+            if not self.stopped or self.skipped:
+                self.tabs.select(0)
+                self.start_timer()
+        elif timer_id == 3:
+            full_seconds = 60 * 15
+            while full_seconds > 0 and not self.stopped:
+                minutes, seconds = divmod(full_seconds, 60)
+                self.long_break_time_label(text=f"{minutes:02d}:{seconds:02d}")
+                self.root.update()
+                time.sleep(1)
+                full_seconds -= 1
+            if not self.stopped or self.skipped:
+                self.tabs.select(0)
+                self.start_timer()
+
 
     def reset_timer(self):
         pass
